@@ -1,0 +1,37 @@
+<section class="cui-flex cui-page__content">
+    <div class="cui-flex__col cui-flex__col_3">
+        <div class="cui-tile">
+            <h4 class="oui-header_4 cui-tile__title" data-translate="cloud_db_project_tile_instance_title"></h4>
+            <div class="cui-tile__body cui-tile__body_custom cui-tile__body_custom-spaced">
+                <cui-action-button data-action="$ctrl.actions.addInstance" data-type="secondary"></cui-action-button>
+                <oui-table data-ng-hide="$ctrl.instances.loading"
+                    rows="$ctrl.instances.data">
+                    <column title="'cloud_db_project_instance_list_col_instance' | translate" property="something" sortable="asc"></column>
+                    <column title="'cloud_db_project_instance_list_col_type' | translate" property="somethingElse"></column>
+                    <column title="'cloud_db_project_instance_list_col_ram' | translate" property="somethingElse"></column>
+                    <column title="'cloud_db_project_instance_list_col_disk_space' | translate" property="somethingElse"></column>
+                    <column title="'cloud_db_project_instance_list_col_status' | translate" property="somethingElse"></column>
+                    <column title="'common_table_col_action' | translate" class="oui-table__cell_action oui-table__cell_action-menu"></column>
+                    <empty-placeholder data-translate="cloud_db_project_instance_list_empty"></empty-placeholder>
+                </oui-table>
+            </div>
+        </div>
+    </div>
+
+    <cui-tile class="cui-flex__col cui-flex__col_2" 
+        data-title="'cloud_db_project_tile_configuration_title' | translate"
+        data-loading="$ctrl.configuration.loading">
+        <cui-tile-body>
+            <cui-tile-item data-term="'cloud_db_project_tile_configuration_name' | translate" 
+                data-description="$ctrl.configuration.data.displayName"
+                data-actions="$ctrl.actions.editName"></cui-tile-item>
+            <cui-tile-item data-term="'cloud_db_project_tile_configuration_quota' | translate" data-description="'test'"></cui-tile-item>
+        <cui-tile-body>
+    </cui-tile>
+    <cui-tile-subscription class="cui-flex__col cui-flex__col_2" 
+            data-loading="$ctrl.subscription.loading"
+            data-subscription-info="$ctrl.subscription.data"
+            data-offer-actions="$ctrl.actions.changeOffer"
+            data-autorenew-actions="$ctrl.actions.manageAutorenew"
+            data-contact-actions="$ctrl.actions.manageContact"></cui-tile-subscription>
+</section>
