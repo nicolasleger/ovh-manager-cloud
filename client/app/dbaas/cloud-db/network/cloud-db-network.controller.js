@@ -16,20 +16,23 @@ class CloudDbNetworkCtrl {
         this.actions = {
             addNetwork: {
                 text: this.$translate.instant("cloud_db_network_add"),
-                callback: () => this.CloudDbActionService.showNetworkEditModal(this.projectId, this.instanceId),
+                callback: () => this.CloudDbActionService.showNetworkEditModal(this.projectId, this.instanceId).then(() => this.networks.load()),
                 isAvailable: () => true
             },
             updateNetwork: {
                 text: this.$translate.instant("common_edit"),
-                callback: networkId => this.CloudDbActionService.showNetworkEditModal(this.projectId, this.instanceId, networkId),
+                callback: network => this.CloudDbActionService.showNetworkEditModal(this.projectId, this.instanceId, network.network).then(() => {
+                    this.CloudDbNetworkService.getNetwork(this.projectId, this.instanceId, network.network)
+                        .then(newNetwork => _.assign(network, newNetwork));
+                }),
                 isAvailable: () => true
             },
             deleteNetwork: {
                 text: this.$translate.instant("common_delete"),
-                callback: networkId => this.ControllerHelper.modal.showDeleteModal({
+                callback: network => this.ControllerHelper.modal.showDeleteModal({
                     titleText: this.$translate.instant("cloud_db_network_delete_title"),
                     text: this.$translate.instant("cloud_db_network_delete_confirmation_message"),
-                    onDelete: () => this.CloudDbNetworkService.deleteNetwork(this.projectId, this.instanceId, networkId)
+                    onDelete: () => this.CloudDbNetworkService.deleteNetwork(this.projectId, this.instanceId, network.network).then(() => this.networks.load())
                 }),
                 isAvailable: () => true
             }
@@ -37,11 +40,7 @@ class CloudDbNetworkCtrl {
     }
 
     $onInit () {
-        this.networks.load()
-            //TODO : Remove this.
-            .finally(() => {
-                this.networks.data = [{ name: 1 }];
-            });
+        this.networks.load();
     }
 
     getActionTemplate () {
@@ -60,7 +59,7 @@ class CloudDbNetworkCtrl {
                                 type="button"
                                 data-ng-disabled="!$ctrl.actions.updateNetwork.isAvailable()"
                                 data-ng-bind="'common_edit' | translate"
-                                data-ng-click="$ctrl.actions.updateNetwork.callback(123456)"></button>
+                                data-ng-click="$ctrl.actions.updateNetwork.callback($row)"></button>
                         </div>
                         <div class="oui-action-menu__item oui-action-menu-item">
                             <div class="oui-action-menu-item__icon">
@@ -70,7 +69,7 @@ class CloudDbNetworkCtrl {
                                 type="button"
                                 data-ng-bind="'common_delete' | translate"
                                 data-ng-disabled="!$ctrl.actions.deleteNetwork.isAvailable()"
-                                data-ng-click="$ctrl.actions.deleteNetwork.callback(123456)"></button>
+                                data-ng-click="$ctrl.actions.deleteNetwork.callback($row)"></button>
                         </div>
                     </div>
                 </cui-dropdown-menu-body>

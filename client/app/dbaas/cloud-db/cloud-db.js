@@ -6,7 +6,7 @@ angular.module("managerApp").config($stateProvider => {
             translations: ["common", "dbaas/cloud-db"]
         })
         .state("dbaas.cloud-db.instance", {
-            url: "/{serviceName}/instance/{instanceId}",
+            url: "/{projectId}/instance/{instanceId}",
             redirectTo: "dbaas.cloud-db.instance.home",
             views: {
                 cloudDbHeaderContainer: {

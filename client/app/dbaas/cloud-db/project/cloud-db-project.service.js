@@ -1,13 +1,19 @@
 class CloudDbProjectService {
-    constructor ($q, /*CloudDb,*/ ServiceHelper, SidebarMenu) {
+    constructor ($q, OvhApiCloudDb, ServiceHelper, SidebarMenu) {
         this.$q = $q;
-        //this.CloudDb = CloudDb;
+        this.OvhApiCloudDb = OvhApiCloudDb;
         this.ServiceHelper = ServiceHelper;
         this.SidebarMenu = SidebarMenu;
     }
 
     getInstances (projectId) {
-        return this.ServiceHelper.errorHandler("cloud_db_project_instance_loading_error")({});
+        return this.OvhApiCloudDb.StandardInstance().Lexi().query({ projectId })
+            .$promise
+            .then(response => {
+                const promises = _.map(response, instanceId => this.OvhApiCloudDb.StandardInstance().Lexi().get({ projectId, instanceId }).$promise);
+                return this.$q.all(promises);
+            })
+            .catch(this.ServiceHelper.errorHandler("cloud_db_project_instance_loading_error"));
     }
 
     rebootInstance (projectId, instanceId) {
@@ -19,32 +25,29 @@ class CloudDbProjectService {
     }
 
     getConfiguration (projectId) {
-        return this.ServiceHelper.errorHandler("cloud_db_project_configuration_loading_error")({});
-        /* return this.CloudDb.Lexi().get({ projectId })
+        return this.OvhApiCloudDb.Lexi().get({ projectId })
             .$promise
             .then(response => {
                 response.displayName = response.name || projectId;
                 return response;
             })
-            .catch(this.ServiceHelper.errorHandler("cloud_db_home_configuration_loading_error"));*/
+            .catch(this.ServiceHelper.errorHandler("cloud_db_project_configuration_loading_error"));
     }
 
     getSubscription (projectId) {
-        return this.ServiceHelper.errorHandler("cloud_db_project_subscription_loading_error")({});
-        /* return this.CloudDb.Lexi().getServiceInfos({ projectId })
+        return this.OvhApiCloudDb.Lexi().getServiceInfos({ projectId })
             .$promise
-            .catch(this.ServiceHelper.errorHandler("cloud_db_home_subscription_loading_error"));*/
+            .catch(this.ServiceHelper.errorHandler("cloud_db_project_subscription_loading_error"));
     }
 
     updateName (projectId, newName) {
-        return this.ServiceHelper.errorHandler("cloud_db_project_change_error")({});
-        /* return this.CloudDb.Lexi().edit({ projectId }, { name: newName })
+        return this.OvhApiCloudDb.Lexi().edit({ projectId }, { name: newName })
             .$promise
             .then(response => {
                 this.getConfiguration(projectId).then(configuration => this.changeMenuTitle(projectId, configuration.displayName || projectId));
                 return response;
             })
-            .catch(this.ServiceHelper.errorHandler("cloud_db_name_change_error"));*/
+            .catch(this.ServiceHelper.errorHandler("cloud_db_project_change_error"));
     }
 }
 

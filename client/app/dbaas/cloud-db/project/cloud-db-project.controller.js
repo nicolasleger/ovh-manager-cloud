@@ -41,7 +41,7 @@ class CloudDbProjectCtrl {
                 isAvailable: () => true
             },
             goToInstance: {
-                text: this.$translate.instant("cloud_db_project_instance_add"),
+                text: this.$translate.instant("common_see_detail"),
                 callback: instance => this.$state.go("dbaas.cloud-db.instance.home", { projectId: this.projectId, instanceId: instance.id }),
                 isAvailable: () => true
             },
@@ -49,7 +49,7 @@ class CloudDbProjectCtrl {
             rebootInstance: {
                 text: this.$translate.instant("common_delete"),
                 callback: instance => this.ControllerHelper.modal.showDeleteModal({
-                    titleText: this.$translate.instant("cloud_db_project_instance_delete_title"),
+                    titleText: this.$translate.instant("cloud_db_project_instance_reboot"),
                     text: this.$translate.instant("cloud_db_project_instance_delete_confirmation_message"),
                     onDelete: () => this.CloudDbProjectService.rebootInstance(this.projectId, instance.id)
                 }),
@@ -69,7 +69,7 @@ class CloudDbProjectCtrl {
                 callback: () => this.ControllerHelper.modal.showNameChangeModal({
                     serviceName: this.projectId,
                     displayName: this.configuration.data.displayName,
-                    onSave: newDisplayName => this.CloudDbProjectService.updateName(this.projectId, newDisplayName)
+                    onSave: newDisplayName => this.CloudDbProjectService.updateName(this.projectId, newDisplayName).then(() => this.configuration.load())
                 }),
                 isAvailable: () => true
             },

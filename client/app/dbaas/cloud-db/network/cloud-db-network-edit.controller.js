@@ -12,10 +12,11 @@ class CloudDbNetworkEditCtrl {
         this.model = {
             name: {
                 value: "",
+                minLength: 3,
                 maxLength: Infinity,
-                required: false
+                required: true
             },
-            ipv4: {
+            network: {
                 value: "",
                 maxLength: Infinity,
                 required: true
@@ -25,8 +26,8 @@ class CloudDbNetworkEditCtrl {
         this.network = this.ControllerHelper.request.getHashLoader({
             loaderFunction: () => this.isInEdition() ? this.CloudDbNetworkService.getNetwork(this.projectId, this.instanceId, this.networkId) : this.$q.when({}),
             successHandler: () => {
-                this.model.name.value = _.get(this.network, "data.something");
-                this.model.ipv4.value = _.get(this.network, "data.somethingElse");
+                this.model.name.value = _.get(this.network, "data.name");
+                this.model.network.value = _.get(this.network, "data.network");
             },
             errorHandler: response => this.$uibModalInstance.dismiss(response)
         });
@@ -54,7 +55,7 @@ class CloudDbNetworkEditCtrl {
         }
 
         this.saving = true;
-        return this.CloudDbNetworkService.saveNetwork(this.projectId, this.instanceId, this.networkId, this.extractModelValues())
+        return this.CloudDbNetworkService.saveNetwork(this.projectId, this.instanceId, this.networkId, _.omit(this.extractModelValues(), "network"))
             .then(response => this.$uibModalInstance.close(response))
             .catch(response => this.$uibModalInstance.dismiss(response))
             .finally(() => { this.saving = false; });

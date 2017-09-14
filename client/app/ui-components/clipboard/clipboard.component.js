@@ -18,7 +18,8 @@
     angular.module("managerApp")
         .component("cuiClipboard", {
             template: `
-                <label class="cui-clipboard__label"
+                <label data-ng-show="$ctrl.label"
+                    class="cui-clipboard__label"
                     data-ng-bind="$ctrl.label"></label>
                 <input class="cui-clipboard__input"
                     type="text"

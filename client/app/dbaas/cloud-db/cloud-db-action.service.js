@@ -17,16 +17,16 @@ class CloudDbActionService {
     }
 
     showNetworkEditModal (projectId, instanceId, networkId) {
-        this.ControllerHelper.modal.showModal({
+        return this.ControllerHelper.modal.showModal({
             modalConfig: {
                 templateUrl: "app/dbaas/cloud-db/network/cloud-db-network-edit.html",
                 controller: "CloudDbNetworkEditCtrl",
                 controllerAs: "$ctrl",
                 resolve: {
-                    params: () => ({ projectId, instanceId, networkId }),
+                    params: () => ({ projectId, instanceId, networkId })
                 }
             }
-        });
+        }).result;
     }
 
     showDatabasePreviewModal (projectId, instanceId, database) {

@@ -9,8 +9,8 @@
     <cui-loader data-ng-show="$ctrl.networks.loading"></cui-loader>
     <oui-table data-ng-hide="$ctrl.networks.loading"
         rows="$ctrl.networks.data">
-        <column title="'cloud_db_network_list_col_network' | translate" property="something" sortable="asc"></column>
-        <column title="'cloud_db_network_list_col_ipv4' | translate" property="somethingElse"></column>
+        <column title="'cloud_db_network_list_col_network' | translate" property="name" sortable="asc"></column>
+        <column title="'cloud_db_network_list_col_ip' | translate" property="network" sortable></column>
         <column title="'common_table_col_action' | translate" class="oui-table__cell_action oui-table__cell_action-menu" template="$ctrl.getActionTemplate()"></column>
         <empty-placeholder data-translate="cloud_db_network_list_empty"></empty-placeholder>
     </oui-table>

@@ -1,7 +1,8 @@
 class CloudDbHomeService {
-    constructor ($q, /*CloudDb,*/ ServiceHelper, SidebarMenu) {
+    constructor ($q, CloudDbAdvancedParameterService, OvhApiCloudDb, ServiceHelper, SidebarMenu) {
         this.$q = $q;
-        //this.CloudDb = CloudDb;
+        this.CloudDbAdvancedParameterService = CloudDbAdvancedParameterService;
+        this.OvhApiCloudDb = OvhApiCloudDb;
         this.ServiceHelper = ServiceHelper;
         this.SidebarMenu = SidebarMenu;
     }
@@ -15,14 +16,20 @@ class CloudDbHomeService {
     }
 
     getConfiguration (projectId, instanceId) {
-        return this.ServiceHelper.errorHandler("cloud_db_home_configuration_loading_error")({});
-        /* return this.CloudDb.Lexi().get({ projectId })
-            .$promise
-            .then(response => {
-                response.displayName = response.name || projectId;
-                return response;
-            })
-            .catch(this.ServiceHelper.errorHandler("cloud_db_home_configuration_loading_error"));*/
+        const promisesHash = {
+            configuration: this.OvhApiCloudDb.StandardInstance().Lexi().get({ projectId, instanceId }).$promise,
+            parameters: this.CloudDbAdvancedParameterService.getCurrentParameters(projectId, instanceId)
+        };
+
+        return this.$q.all(promisesHash)
+            .then(response => ({
+                displayName: response.configuration.name || response.configuration.id,
+                offer: response.configuration.flavor,
+                type: response.configuration.image,
+                advancedParameters: response.parameters,
+                region: "GRA1" // Replace by response.region.name once it's not mocked anymore.
+            }))
+            .catch(this.ServiceHelper.errorHandler("cloud_db_home_configuration_loading_error"));
     }
 
     getSubscription (projectId, instanceId) {

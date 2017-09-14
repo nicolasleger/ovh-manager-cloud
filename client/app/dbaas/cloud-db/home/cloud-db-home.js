@@ -9,6 +9,6 @@ angular.module("managerApp").config($stateProvider => {
                     controllerAs: "$ctrl"
                 }
             },
-            translations: ["common", "cloud-db", "dbaas/cloud-db/home"]
+            translations: ["common", "cloud-db", "dbaas/cloud-db/home", "dbaas/cloud-db/network"]
         });
 });

@@ -4,14 +4,15 @@
             <h4 class="oui-header_4 cui-tile__title" data-translate="cloud_db_project_tile_instance_title"></h4>
             <div class="cui-tile__body cui-tile__body_custom cui-tile__body_custom-spaced">
                 <cui-action-button data-action="$ctrl.actions.addInstance" data-type="secondary"></cui-action-button>
+                <cui-loader data-ng-show="$ctrl.instances.loading"></cui-loader>
                 <oui-table data-ng-hide="$ctrl.instances.loading"
                     rows="$ctrl.instances.data">
-                    <column title="'cloud_db_project_instance_list_col_instance' | translate" property="something" sortable="asc"></column>
-                    <column title="'cloud_db_project_instance_list_col_type' | translate" property="somethingElse"></column>
-                    <column title="'cloud_db_project_instance_list_col_ram' | translate" property="somethingElse"></column>
-                    <column title="'cloud_db_project_instance_list_col_disk_space' | translate" property="somethingElse"></column>
-                    <column title="'cloud_db_project_instance_list_col_status' | translate" property="somethingElse"></column>
-                    <column title="'common_table_col_action' | translate" class="oui-table__cell_action oui-table__cell_action-menu"></column>
+                    <column title="'cloud_db_project_instance_list_col_instance' | translate" property="name" sortable="asc"></column>
+                    <column title="'cloud_db_project_instance_list_col_type' | translate" property="image.name" sortable></column>
+                    <column title="'cloud_db_project_instance_list_col_ram' | translate" property="ram.value" sortable></column>
+                    <column title="'cloud_db_project_instance_list_col_disk_space' | translate" property="somethingElse" sortable></column>
+                    <column title="'cloud_db_project_instance_list_col_status' | translate" property="status" sortable></column>
+                    <column title="'common_table_col_action' | translate" class="oui-table__cell_action oui-table__cell_action-menu" template="$ctrl.getActionTemplate()"></column>
                     <empty-placeholder data-translate="cloud_db_project_instance_list_empty"></empty-placeholder>
                 </oui-table>
             </div>
@@ -19,13 +20,14 @@
     </div>
 
     <cui-tile class="cui-flex__col cui-flex__col_2" 
-        data-title="'cloud_db_project_tile_configuration_title' | translate"
+        data-title="'cloud_db_project_tile_configuration_title'"
         data-loading="$ctrl.configuration.loading">
         <cui-tile-body>
             <cui-tile-item data-term="'cloud_db_project_tile_configuration_name' | translate" 
                 data-description="$ctrl.configuration.data.displayName"
                 data-actions="$ctrl.actions.editName"></cui-tile-item>
-            <cui-tile-item data-term="'cloud_db_project_tile_configuration_quota' | translate" data-description="'test'"></cui-tile-item>
+            <cui-tile-item data-term="'cloud_db_project_tile_configuration_instance_quota' | translate" 
+                data-description="'cloud_db_project_tile_configuration_instance_quota_description' | translate : { current: 'waiting', max: 'again' }"></cui-tile-item>
         <cui-tile-body>
     </cui-tile>
     <cui-tile-subscription class="cui-flex__col cui-flex__col_2" 

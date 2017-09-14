@@ -5,15 +5,27 @@
     <cui-page-content-title text="'cloud_db_advanced_parameter_edit_title' | translate"></cui-page-content-title>
     <p data-translate="cloud_db_advanced_parameter_intro_text"></p>
     <form novalidate name="$ctrl.form">
+        <cui-loader data-ng-show="$ctrl.parameters.loading"></cui-loader>
+        <div class="oui-field" 
+            data-ng-if="!$ctrl.parameters.loading"
+            data-ng-repeat="param in $ctrl.parameters.data.details track by $index">
+            <label for="{{ param.key }}" class="oui-label" data-translate="patateChaude"></label>
+            <div class="oui-field__content">
+                <div class="oui-field-control">
+                    <cui-radio-bar data-ng-model="$ctrl.model[param.key]">
+                        <cui-radio-bar-item data-ng-repeat="value in param.availableValues"
+                            data-text="value"
+                            data-value="value"></cui-radio-bar-item>
+                    </cui-radio-bar>
+                </div>
+            </div>
+        </div>
+
         <div class="cui-form-actions">
             <cui-loader data-ng-show="$ctrl.saving"></cui-loader>
             <div data-ng-hide="$ctrl.saving">
                 <cui-submit-button data-text="'common_modify' | translate"
-                    data-ng-if="$ctrl.edition"
                     data-on-click="$ctrl.update()"></cui-submit-button>
-                <cui-submit-button data-text="'common_add' | translate"
-                    data-ng-if="!$ctrl.edition"
-                    data-on-click="$ctrl.create()"></cui-submit-button>
                 <a class="oui-button oui-button_secondary"
                     data-translate="common_cancel"
                     data-ui-sref="{{ $ctrl.previousState.sref }}"></a>

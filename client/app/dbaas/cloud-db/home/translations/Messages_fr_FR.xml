@@ -21,6 +21,9 @@
     <translation id="cloud_db_home_tile_configuration_title">Configuration</translation>
     <translation id="cloud_db_home_tile_configuration_name">Nom</translation>
     <translation id="cloud_db_home_tile_configuration_type">Type</translation>
+    <translation id="cloud_db_home_tile_configuration_offer">Offre</translation>
     <translation id="cloud_db_home_tile_configuration_advanced_parameters">Paramètres avancés</translation>
+    <translation id="cloud_db_home_tile_configuration_advanced_parameters_default">Par défaut</translation>
+    <translation id="cloud_db_home_tile_configuration_advanced_parameters_custom">Personnalisé</translation>
     <translation id="cloud_db_home_tile_configuration_region">Région</translation>
 </translations>
