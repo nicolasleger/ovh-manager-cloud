@@ -1,6 +1,7 @@
 class CloudDbProjectService {
-    constructor ($q, OvhApiCloudDb, ServiceHelper, SidebarMenu) {
+    constructor ($q, CloudDbInstanceService, OvhApiCloudDb, ServiceHelper, SidebarMenu) {
         this.$q = $q;
+        this.CloudDbInstanceService = CloudDbInstanceService;
         this.OvhApiCloudDb = OvhApiCloudDb;
         this.ServiceHelper = ServiceHelper;
         this.SidebarMenu = SidebarMenu;
@@ -10,7 +11,7 @@ class CloudDbProjectService {
         return this.OvhApiCloudDb.StandardInstance().Lexi().query({ projectId })
             .$promise
             .then(response => {
-                const promises = _.map(response, instanceId => this.OvhApiCloudDb.StandardInstance().Lexi().get({ projectId, instanceId }).$promise);
+                const promises = _.map(response, instanceId => this.CloudDbInstanceService.getInstance(projectId, instanceId));
                 return this.$q.all(promises);
             })
             .catch(this.ServiceHelper.errorHandler("cloud_db_project_instance_loading_error"));

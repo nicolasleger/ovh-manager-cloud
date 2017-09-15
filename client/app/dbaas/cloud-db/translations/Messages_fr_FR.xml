@@ -61,4 +61,5 @@
     <translation id="cloud_db_advanced_parameter_update_error">Erreur lors de la sauvegarde des paramètres avancés.</translation>
 
     <translation id="cloud_db_name_change_error">Erreur lors du changement de nom.</translation>
+    <translation id="cloud_db_project_instance_usage_text">{{ used }} / {{ total }}</translation>
 </translations>

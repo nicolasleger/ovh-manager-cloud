@@ -1,7 +1,8 @@
 class CloudDbHomeService {
-    constructor ($q, CloudDbAdvancedParameterService, OvhApiCloudDb, ServiceHelper, SidebarMenu) {
+    constructor ($q, CloudDbAdvancedParameterService, CloudDbInstanceService, OvhApiCloudDb, ServiceHelper, SidebarMenu) {
         this.$q = $q;
         this.CloudDbAdvancedParameterService = CloudDbAdvancedParameterService;
+        this.CloudDbInstanceService = CloudDbInstanceService;
         this.OvhApiCloudDb = OvhApiCloudDb;
         this.ServiceHelper = ServiceHelper;
         this.SidebarMenu = SidebarMenu;
@@ -12,12 +13,18 @@ class CloudDbHomeService {
     }
 
     getAccess (projectId, instanceId) {
-        return this.ServiceHelper.errorHandler("cloud_db_home_access_loading_error")({});
+        return this.CloudDbInstanceService.getInstance(projectId, instanceId)
+            .then(response => ({
+                hostName: response.endpoint,
+                port: response.port,
+                command: response.accessCommand
+            }))
+            .catch(this.ServiceHelper.errorHandler("cloud_db_home_access_loading_error"));
     }
 
     getConfiguration (projectId, instanceId) {
         const promisesHash = {
-            configuration: this.OvhApiCloudDb.StandardInstance().Lexi().get({ projectId, instanceId }).$promise,
+            configuration: this.CloudDbInstanceService.getInstance(projectId, instanceId),
             parameters: this.CloudDbAdvancedParameterService.getCurrentParameters(projectId, instanceId)
         };
 

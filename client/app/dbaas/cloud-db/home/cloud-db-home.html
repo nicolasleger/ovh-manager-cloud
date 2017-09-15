@@ -33,7 +33,7 @@
                 <cui-tile-definitions>
                     <cui-tile-definition-term data-term="'cloud_db_home_tile_access_host_name' | translate"></cui-tile-definition-term>
                     <cui-tile-definition-description>
-                        <cui-clipboard data-text="'Placeholder'"></cui-clipboard>
+                        <cui-clipboard data-text="$ctrl.access.data.hostName"></cui-clipboard>
                     </cui-tile-definition-description>
                 </cui-tile-definitions>
             </cui-tile-item>
@@ -41,7 +41,7 @@
                 <cui-tile-definitions>
                     <cui-tile-definition-term data-term="'cloud_db_home_tile_access_port' | translate"></cui-tile-definition-term>
                     <cui-tile-definition-description>
-                        <cui-clipboard data-text="'Placeholder'"></cui-clipboard>
+                        <cui-clipboard data-text="$ctrl.access.data.port"></cui-clipboard>
                     </cui-tile-definition-description>
                 </cui-tile-definitions>
             </cui-tile-item>
@@ -49,7 +49,7 @@
                 <cui-tile-definitions>
                     <cui-tile-definition-term data-term="'cloud_db_home_tile_access_connection_command_line' | translate"></cui-tile-definition-term>
                     <cui-tile-definition-description>
-                        <cui-clipboard data-text="'Placeholder'"></cui-clipboard>
+                        <cui-clipboard data-text="$ctrl.access.data.command"></cui-clipboard>
                     </cui-tile-definition-description>
                 </cui-tile-definitions>
             </cui-tile-item>
@@ -65,7 +65,7 @@
             <cui-tile-item data-term="'cloud_db_home_tile_configuration_offer' | translate" data-description="$ctrl.configuration.data.offer.name"></cui-tile-item>
             <cui-tile-item data-term="'cloud_db_home_tile_configuration_type' | translate" data-description="$ctrl.configuration.data.type.name"></cui-tile-item>
             <cui-tile-item data-term="'cloud_db_home_tile_configuration_advanced_parameters' | translate" 
-                data-description="$ctrl.configuration.data.advancedParameters.isDefaultConfiguration() ? 'cloud_db_home_tile_configuration_advanced_parameters_default' : 'cloud_db_home_tile_configuration_advanced_parameters_custom'"
+                data-description="$ctrl.configuration.data.advancedParameters.isDefaultConfiguration() ? ('cloud_db_home_tile_configuration_advanced_parameters_default' | translate) : ('cloud_db_home_tile_configuration_advanced_parameters_custom' | translate)"
                 data-actions="$ctrl.actions.editAdvancedParameters"></cui-tile-item>
             <cui-tile-item>
                 <cui-tile-definitions>
