@@ -30,6 +30,10 @@ class CloudDbProjectService {
             .$promise
             .then(response => {
                 response.displayName = response.name || projectId;
+                response.quotas = {
+                    instance: response.quotas[0]
+                };
+
                 return response;
             })
             .catch(this.ServiceHelper.errorHandler("cloud_db_project_configuration_loading_error"));

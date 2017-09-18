@@ -37,10 +37,10 @@ class CloudDbUserCtrl {
             },
             deleteUser: {
                 text: this.$translate.instant("common_delete"),
-                callback: userId => this.ControllerHelper.modal.showDeleteModal({
+                callback: user => this.ControllerHelper.modal.showDeleteModal({
                     titleText: this.$translate.instant("cloud_db_user_delete_title"),
                     text: this.$translate.instant("cloud_db_user_delete_confirmation_message"),
-                    onDelete: () => this.CloudDbUserService.deleteUser(this.projectId, this.instanceId, userId)
+                    onDelete: () => this.CloudDbUserService.deleteUser(this.projectId, this.instanceId, user.name)
                 }),
                 isAvailable: () => true
             }
@@ -48,11 +48,7 @@ class CloudDbUserCtrl {
     }
 
     $onInit () {
-        this.users.load()
-            //TODO : Remove this.
-            .finally(() => {
-                this.users.data = [{ name: 1 }];
-            });
+        this.users.load();
     }
 
     getActionTemplate () {
@@ -83,7 +79,7 @@ class CloudDbUserCtrl {
                                 type="button"
                                 data-ng-disabled="!$ctrl.actions.updateUser.isAvailable()"
                                 data-ng-bind="'common_edit' | translate"
-                                data-ng-click="$ctrl.actions.updateUser.callback(123456)"></button>
+                                data-ng-click="$ctrl.actions.updateUser.callback($row)"></button>
                         </div>
                         <div class="oui-action-menu__item oui-action-menu-item">
                             <div class="oui-action-menu-item__icon">
@@ -93,7 +89,7 @@ class CloudDbUserCtrl {
                                 type="button"
                                 data-ng-bind="'common_delete' | translate"
                                 data-ng-disabled="!$ctrl.actions.deleteUser.isAvailable()"
-                                data-ng-click="$ctrl.actions.deleteUser.callback(123456)"></button>
+                                data-ng-click="$ctrl.actions.deleteUser.callback($row)"></button>
                         </div>
                     </div>
                 </cui-dropdown-menu-body>

@@ -23,6 +23,19 @@
         data-title="'cloud_db_home_tile_status_title' | translate"
         data-loading="$ctrl.status.loading">
         <cui-tile-body>
+            <cui-tile-item-status data-term="'cloud_db_home_tile_status_instance' | translate"
+                data-description="$ctrl.status.data.status.text"
+                data-type="{{ $ctrl.status.data.status.value | CloudDbStatusIcon }}"
+                data-lol="$ctrl.status.data.status.text">
+            </cui-tile-item-status>
+            <cui-tile-item-status data-term="'cloud_db_home_tile_status_ram' | translate"
+                data-description="$ctrl.status.data.ram.text"
+                data-type="success">
+            </cui-tile-item-status>
+            <cui-tile-item-status data-term="'cloud_db_home_tile_status_disk_space' | translate"
+                data-description="$ctrl.status.data.diskUsage.text"
+                data-type="success">
+            </cui-tile-item-status>
         </cui-tile-body>
     </cui-tile>
     <cui-tile class="cui-flex__col cui-flex__col_1" 

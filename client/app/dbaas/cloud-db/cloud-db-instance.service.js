@@ -22,6 +22,8 @@ class CloudDbInstanceService {
                     text: this.$translate.instant("cloud_db_project_instance_usage_text", { used: usedText, total: totalText })
                 };
 
+                response.status = { value: response.status, text: response.status };
+
                 response.flavor.ram.text = this.$filter("bytes")(response.flavor.ram.value, 0, false, response.flavor.ram.unit);
 
                 return response;

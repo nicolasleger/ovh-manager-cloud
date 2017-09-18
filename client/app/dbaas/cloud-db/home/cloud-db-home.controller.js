@@ -18,8 +18,6 @@ class CloudDbHomeCtrl {
         this.status.load();
         this.access.load();
         this.configuration.load();
-        this.subscription.load();
-
         this.initActions();
     }
 
@@ -34,10 +32,6 @@ class CloudDbHomeCtrl {
 
         this.configuration = this.ControllerHelper.request.getHashLoader({
             loaderFunction: () => this.CloudDbHomeService.getConfiguration(this.projectId, this.instanceId)
-        });
-
-        this.subscription = this.ControllerHelper.request.getHashLoader({
-            loaderFunction: () => this.CloudDbHomeService.getSubscription(this.projectId, this.instanceId)
         });
     }
 

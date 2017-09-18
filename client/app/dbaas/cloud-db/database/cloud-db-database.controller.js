@@ -37,10 +37,10 @@ class CloudDbDatabaseCtrl {
             },
             deleteDatabase: {
                 text: this.$translate.instant("common_delete"),
-                callback: databaseId => this.ControllerHelper.modal.showDeleteModal({
+                callback: database => this.ControllerHelper.modal.showDeleteModal({
                     titleText: this.$translate.instant("cloud_db_database_delete_title"),
                     text: this.$translate.instant("cloud_db_database_delete_confirmation_message"),
-                    onDelete: () => this.CloudDbDatabaseService.deleteDatabase(this.projectId, this.instanceId, databaseId)
+                    onDelete: () => this.CloudDbDatabaseService.deleteDatabase(this.projectId, this.instanceId, database.name)
                 }),
                 isAvailable: () => true
             }
@@ -48,11 +48,7 @@ class CloudDbDatabaseCtrl {
     }
 
     $onInit () {
-        this.databases.load()
-            //TODO : Remove this.
-            .finally(() => {
-                this.databases.data = [{ name: 1 }];
-            });
+        this.databases.load();
     }
 
     getActionTemplate () {
@@ -83,7 +79,7 @@ class CloudDbDatabaseCtrl {
                                 type="button"
                                 data-ng-disabled="!$ctrl.actions.updateDatabase.isAvailable()"
                                 data-ng-bind="'common_edit' | translate"
-                                data-ng-click="$ctrl.actions.updateDatabase.callback(123456)"></button>
+                                data-ng-click="$ctrl.actions.updateDatabase.callback($row)"></button>
                         </div>
                         <div class="oui-action-menu__item oui-action-menu-item">
                             <div class="oui-action-menu-item__icon">
@@ -93,7 +89,7 @@ class CloudDbDatabaseCtrl {
                                 type="button"
                                 data-ng-bind="'common_delete' | translate"
                                 data-ng-disabled="!$ctrl.actions.deleteDatabase.isAvailable()"
-                                data-ng-click="$ctrl.actions.deleteDatabase.callback(123456)"></button>
+                                data-ng-click="$ctrl.actions.deleteDatabase.callback($row)"></button>
                         </div>
                     </div>
                 </cui-dropdown-menu-body>

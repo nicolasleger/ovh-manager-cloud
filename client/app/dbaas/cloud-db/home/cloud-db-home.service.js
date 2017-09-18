@@ -9,7 +9,13 @@ class CloudDbHomeService {
     }
 
     getStatus (projectId, instanceId) {
-        return this.ServiceHelper.errorHandler("cloud_db_home_status_loading_error")({});
+        return this.CloudDbInstanceService.getInstance(projectId, instanceId)
+            .then(response => ({
+                status: response.status,
+                ram: response.flavor.ram,
+                diskUsage: response.diskUsage
+            }))
+            .catch(this.ServiceHelper.errorHandler("cloud_db_home_status_loading_error"));
     }
 
     getAccess (projectId, instanceId) {
@@ -37,13 +43,6 @@ class CloudDbHomeService {
                 region: "GRA1" // Replace by response.region.name once it's not mocked anymore.
             }))
             .catch(this.ServiceHelper.errorHandler("cloud_db_home_configuration_loading_error"));
-    }
-
-    getSubscription (projectId, instanceId) {
-        return this.ServiceHelper.errorHandler("cloud_db_home_subscription_loading_error")({});
-        /* return this.CloudDb.Lexi().getServiceInfos({ projectId })
-            .$promise
-            .catch(this.ServiceHelper.errorHandler("cloud_db_home_subscription_loading_error"));*/
     }
 
     updateName (projectId, instanceId, newName) {
